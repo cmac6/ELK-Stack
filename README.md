@@ -1,5 +1,9 @@
 ## Automated ELK Stack Deployment
 
+The files in this repository were used to configure the network depicted in the diagram below.
+
+![Network Diagram](images/Network_Diagram.png)
+
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select playbooks in the `ansible` folder may be used to install only certain pieces of it, such as only Filebeat or the DVWA.
 
 This document contains the following details:
@@ -30,7 +34,7 @@ The configuration details of each machine may be found below.
 | Jump Box Provisioner | Gateway    | 10.0.0.4   | Linux            | Public Jump Box IP      |
 | Web 1                | Web Server | 10.0.0.5   | Linux            | Load Balancer Public IP |
 | Web 2                | Web Server | 10.0.0.6   | Linux            | Load Balancer Public IP |
-| ELK                  | Monitor    | 10.1.0.4   | Linux            |                         |
+| ELK                  | Monitor    | 10.1.0.4   | Linux            | ELK Public IP           |
 
 **Note** We have provisioned an Azure load balancer in front of Web 1 and Web 2, they both share the load balancer's front end IP.
 
@@ -75,3 +79,6 @@ The following screenshot displays the result of running `docker ps` after succes
 This ELK server is configured to monitor the Web 1 and Web 2 machines (10.0.0.5, 10.0.0.6)
 
 We have installed Metricbeat and Filebeat on these machines.
+
+### Using the Playbook
+In order to use the playbooks, you will need to have an Ansible control node already configured.
