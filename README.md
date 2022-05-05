@@ -93,25 +93,31 @@ To configure the Ansible container, first make sure Docker is installed on the J
 To install Ansible, we will first pull it from the cyberxsecurity repo and then install the container:
 - `sudo docker pull cyberxsecurity/ansible`
 - `sudo docker run -ti cyberxsecurity/ansible bash`
-      The Ansible control node should now be installed. 
+
+The Ansible control node should now be installed. 
 - `exit` the container.
 
 When we are ready to run one of the playbooks to configure a DVWA, ELK, Metricbeat, or Filebeat, we must first log into our Jumpbox and start the docker container.
 - `sudo docker container list -a` shows us the name of our Ansible container
 - `sudo docker start [name of container]` starts Ansible
 - `sudo docker attach [name of container]` logs us into Ansible
-      **NOTE** You must change the hosts file inside the Ansible container at `/etc/ansible` to match the IP addresses of your webservers and ELK machines. Your virtual network may be slightly different than the network used in this project. 
-      Ansible's connection to the other machines can be tested with `ansible all -m ping`.
+
+**NOTE** You must change the hosts file inside the Ansible container at `/etc/ansible` to match the IP addresses of your webservers and ELK machines. Your virtual network may be slightly different than the network used in this project. 
+Ansible's connection to the other machines can be tested with `ansible all -m ping`.
 
 Once we have configured the hosts file and copied the `config` and `playbook` files from this repo into the Ansible container at `/etc/ansible/` we can run our playbooks to configure the targeted `hosts` with the `ansible-playbook` command.
 - `ansible-playbook pentest.yml` will install the D*mn Vulnerable Web Application on our webservers.
-      We can test if the installation worked as expected and access the DVWA by navigating to `http://[public IP of the loadbalancer]/setup.php` in a web browser from sysadmin's machine.
+
+We can test if the installation worked as expected and access the DVWA by navigating to `http://[public IP of the loadbalancer]/setup.php` in a web browser from sysadmin's machine.
 
 - `ansible-playbook install-elk.yml` will install the ELK stack on our ELK server.
-      We can test if the installation worked as expected and access Kibana by navigating to `http://[ELK server IP]:5601/app/kibana#/home` in a web browser from sysadmin's machine.
+
+We can test if the installation worked as expected and access Kibana by navigating to `http://[ELK server IP]:5601/app/kibana#/home` in a web browser from sysadmin's machine.
 
 - `ansible-playbook filebeat-playbook.yml` will install Filebeat monitoring on our webservers.
-      **NOTE** You may need to change the "hosts" IP address in your `filebeat-config` file to the IP of your ELK server if it is different than the machine depicted in this repo!
+
+**NOTE** You may need to change the "hosts" IP address in your `filebeat-config` file to the IP of your ELK server if it is different than the machine depicted in this repo!
 
 - `ansible-playbook metricbeat-playbook.yml` will install Metricbeat monitoring on our webservers.
-      **NOTE** You may need to change the "hosts" IP address in your `metricbeat-config` file to the IP of your ELK server if it is different than the machine depicted in this repo!
+
+**NOTE** You may need to change the "hosts" IP address in your `metricbeat-config` file to the IP of your ELK server if it is different than the machine depicted in this repo!
