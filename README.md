@@ -36,7 +36,7 @@ The configuration details of each machine may be found below.
 | Web 2                | Web Server | 10.0.0.6   | Linux            | Load Balancer Public IP |
 | ELK                  | Monitor    | 10.1.0.4   | Linux            | ELK Public IP           |
 
-**Note** We have provisioned an Azure load balancer in front of Web 1 and Web 2, they both share the load balancer's front end IP.
+**NOTE** We have provisioned an Azure load balancer in front of Web 1 and Web 2, they both share the load balancer's front end IP.
 
 ### Access Policies
 
@@ -71,7 +71,7 @@ The Filebeat & Metricbeat playbooks are similar:
 - Creates config file & enables Docker module
 - Starts Metricbeat service, enables service to start on boot
 
-The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance. *Note* You must SSH into the ELK machine from your Ansible container, for example `ssh@RedAdmin10.1.0.4`, before running `docker ps`!
+The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance. **NOTE** You must SSH into the ELK machine from your Ansible container, for example `ssh@RedAdmin10.1.0.4`, before running `docker ps`!
 
 ![Docker Output](images/docker_ps_ELK.png)
 
@@ -80,26 +80,28 @@ This ELK server is configured to monitor the Web 1 and Web 2 machines (10.0.0.5,
 
 We can install Metricbeat and Filebeat on these machines by running `filebeat-playbook` and `metricbeat-playbook`.
 
-These Beats allow us to collect a suite of data from the web servers. With Metricbeat we can view CPU usage, memory usage, inbout & outbound traffic metrics, spikes in web traffic, and more. Filebeat allows us to read and sort logs from our web machines, including changes to the authentication logs and the file system.
+These Beats allow us to collect a suite of data from the web servers. With Metricbeat we can view CPU usage, memory usage, inbound & outbound traffic metrics, spikes in web traffic, and more. Filebeat allows us to read and sort logs from our web machines, including changes to the authentication logs and the file system.
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured.
 
-To configure the Ansible container first make sure Docker is installed on the Jumpbox.
+To configure the Ansible container, first make sure Docker is installed on the Jumpbox.
 - Run `sudo apt update`
-      `sudo apt install docker.io` to isntall Docker
-- We can check if docker is up and running with `sudo systemctl status docker`
+      `sudo apt install docker.io` to install Docker
+- We can check if Docker is up and running with `sudo systemctl status docker`
 
 To install Ansible, we will first pull it from the cyberxsecurity repo and then install the container:
 - `sudo docker pull cyberxsecurity/ansible`
 - `sudo docker run -ti cyberxsecurity/ansible bash`
-The Ansible control node should now be installed. `exit` the container.
+      The Ansible control node should now be installed. 
+- `exit` the container.
 
-When we are ready to run one of the playbooks to configure a DVWA, ELK, Metricbeat, or Filebeat we must first ssh into our Jumpbox and start the docker container.
+When we are ready to run one of the playbooks to configure a DVWA, ELK, Metricbeat, or Filebeat, we must first log into our Jumpbox and start the docker container.
 - `sudo docker container list -a` shows us the name of our Ansible container
-- `sudo docker start [name of container]` starts Ansible.
+- `sudo docker start [name of container]` starts Ansible
 - `sudo docker attach [name of container]` logs us into Ansible
-**Note** You must change the hosts file inside the Ansible container at `/etc/ansible` to match the IP addresses of your webservers and ELK machines. Your virtual network may be slightly different than the network used in this project. Ansible's connection to the other machines can be tested with `ansible all -m ping`.
+      **NOTE** You must change the hosts file inside the Ansible container at `/etc/ansible` to match the IP addresses of your webservers and ELK machines. Your virtual network may be slightly different than the network used in this project. 
+      Ansible's connection to the other machines can be tested with `ansible all -m ping`.
 
 Once we have configured the hosts file and copied the `config` and `playbook` files from this repo into the Ansible container at `/etc/ansible/` we can run our playbooks to configure the targeted `hosts` with the `ansible-playbook` command.
 - `ansible-playbook pentest.yml` will install the D*mn Vulnerable Web Application on our webservers.
